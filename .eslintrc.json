@@ -17,6 +17,9 @@
         "comma-dangle": 0,
         "no-console": 0,
         "quotes": 0,
-        "class-methods-use-this": 0
+        "class-methods-use-this": 0,
+        "no-param-reassign": 0,
+        "no-unneeded-ternary": 0,
+        "arrow-body-style": 0
     }
 }

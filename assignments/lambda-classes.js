@@ -1,5 +1,15 @@
 // CODE here for your Lambda Classes
 
+/**
+ *  This function takes two arguments,
+ *  a maximum and a minimum number and returns a random number
+ *  between the given range. The returned value is inclusive of
+ *  the max and min numbers.
+ */
+const randomNumberGenerator = (min, max) => {
+  return Math.floor(Math.random() * (max - min + min) + min);
+};
+
 class Person {
   constructor(name, age, location, gender) {
     this.name = name;
@@ -9,7 +19,7 @@ class Person {
   }
 
   speak() {
-    console.log(`Hello my name is ${this.name}, I am from ${this.location}`);
+    return `Hello my name is ${this.name}, I am from ${this.location}`;
   }
 }
 
@@ -30,11 +40,20 @@ class Instructor extends Person {
   }
 
   demo(subject) {
-    console.log(`Today we are learning about ${subject}`);
+    return `Today we are learning about ${subject}`;
   }
 
   grade(student, subject) {
-    console.log(`${student.name} receives a perfect score on ${subject}`);
+    return `${student.name} receives a perfect score on ${subject}`;
+  }
+
+  gradeStudent(student) {
+    const oldGrade = student.grade;
+    student.grade = randomNumberGenerator(1, 100);
+
+    return `${student.name} now has new grade of ${
+      student.grade
+    }, old grade was ${oldGrade}`;
   }
 }
 
@@ -49,6 +68,8 @@ class Student extends Person {
     this.previousBackground = studentAttr.previousBackground;
     this.className = studentAttr.className;
     this.favSubjects = studentAttr.favSubjects;
+    this.grade = studentAttr.grade;
+    this.hasGraduated = studentAttr.hasGraduated;
   }
 
   listsSubjects() {
@@ -56,11 +77,20 @@ class Student extends Person {
   }
 
   PRAssignment(subject) {
-    console.log(`${this.name} has submitted a PR for ${subject}`);
+    return `${this.name} has submitted a PR for ${subject}`;
   }
 
   sprintChallenge(subject) {
-    console.log(`${this.name} has begun sprint challenge on ${subject}`);
+    return `${this.name} has begun sprint challenge on ${subject}`;
+  }
+
+  graduate() {
+    if (this.grade >= 70) {
+      this.hasGraduated = true;
+      return `${this.name} has graduated with a grade of ${this.grade}`;
+    }
+
+    return `${this.name} does have the minimum grade required to graduate`;
   }
 }
 
@@ -72,13 +102,11 @@ class ProjectManager extends Instructor {
   }
 
   standUp(slackChannel) {
-    console.log(
-      `${this.name} announces to ${slackChannel}, @channel standup times!`
-    );
+    return `${this.name} announces to ${slackChannel}, @channel standup times!`;
   }
 
   debugsCode(student, subject) {
-    console.log(`${this.name} debugs ${student.name}'s code on ${subject}`);
+    return `${this.name} debugs ${student.name}'s code on ${subject}`;
   }
 }
 
@@ -109,7 +137,9 @@ const wick = new Student({
   gender: "male",
   previousBackground: "College Student",
   className: "WEBEU2",
-  favSubjects: ["JavaScript", "LESS"]
+  favSubjects: ["JavaScript", "LESS"],
+  grade: randomNumberGenerator(1, 100),
+  hasGraduated: false
 });
 
 const jane = new Student({
@@ -119,7 +149,9 @@ const jane = new Student({
   gender: "female",
   previousBackground: "Waitress",
   className: "WEBEU2",
-  favSubjects: ["CSS", "HTML"]
+  favSubjects: ["CSS", "HTML"],
+  grade: randomNumberGenerator(1, 100),
+  hasGraduated: false
 });
 
 const leo = new ProjectManager({
@@ -154,3 +186,6 @@ console.log(jane.PRAssignment("Semantic HTML"));
 console.log(jane.sprintChallenge("Box Model"));
 console.log(leo.standUp("LeoWebeu2"));
 console.log(sarah.debugsCode(jane, "Redux"));
+console.log(fred.gradeStudent(jane));
+console.log(sarah.gradeStudent(wick));
+console.log(wick.graduate());
