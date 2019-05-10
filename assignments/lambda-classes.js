@@ -73,7 +73,7 @@ class Student extends Person {
   }
 
   listsSubjects() {
-    this.favSubjects.map(subject => console.log(subject));
+    return this.favSubjects.join(' ');
   }
 
   PRAssignment(subject) {
